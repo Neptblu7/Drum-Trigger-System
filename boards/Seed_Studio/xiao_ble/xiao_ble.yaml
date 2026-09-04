@@ -1,0 +1,10 @@
+identifier: xiao_ble/nrf52840
+name: Trigger Xiao
+vendor: Seed_Studio
+type: mcu
+arch: arm
+ram: 256
+flash: 472
+toolchain:
+  - zephyr
+supported: []

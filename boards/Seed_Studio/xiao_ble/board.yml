@@ -1,0 +1,6 @@
+board:
+  name: xiao_ble
+  full_name: xiao_ble
+  vendor: Seed_Studio
+  socs:
+    - name: nrf52840

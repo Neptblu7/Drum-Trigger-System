@@ -1,0 +1,7 @@
+tests:
+  trigger01.trigger_engine:
+    platform_allow:
+      - qemu_cortex_m3
+    tags:
+      - trigger
+      - unit
