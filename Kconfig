@@ -1,0 +1,46 @@
+mainmenu "Trigger01 drum engine"
+
+source "Kconfig.zephyr"
+
+menu "Drum trigger engine"
+
+config DRUM_SAADC_STREAM
+	bool "Use continuous nrfx SAADC acquisition"
+	select NRFX_SAADC
+	help
+	  Own the nRF52840 SAADC directly so its internal timer and EasyDMA
+	  double buffering can provide gap-free, deterministic acquisition.
+
+config DRUM_ADC_SAMPLE_PERIOD_US
+	int "SAADC sample period in microseconds"
+	default 100
+	range 50 100
+	help
+	  100 us selects 10 kS/s. Change this to 50 us for 20 kS/s after
+	  retuning all sample-count-based trigger parameters.
+
+config DRUM_DIAGNOSTICS
+	bool "Print one diagnostic line per hit"
+	default y
+
+config DRUM_ADC_TIMING_DIAGNOSTICS
+	bool "Collect SAADC DMA callback timing statistics"
+	default y
+
+config DRUM_FAKE_TRIGGER_TEST
+	bool "Generate a fake kick event every two seconds"
+	help
+	  Exercise the event queue, sample selection, direct Track 1 command,
+	  and I2C error reporting without striking the piezo.
+
+config DRUM_PLAYBACK_THREAD_STACK_SIZE
+	int "Playback worker stack size"
+	default 1536
+	range 1024 4096
+
+config DRUM_PLAYBACK_THREAD_PRIORITY
+	int "Playback worker preemptive priority"
+	default 1
+	range 0 15
+
+endmenu

@@ -1,0 +1,43 @@
+#include <zephyr/dt-bindings/adc/adc.h>
+#include <zephyr/dt-bindings/adc/nrf-saadc.h>
+
+/ {
+	zephyr,user {
+		io-channels = <&adc 0>;
+	};
+};
+
+&adc {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	channel@0 {
+		reg = <0>;
+
+		/*
+		 * XIAO A0 / D0 = nRF52840 P0.02 = SAADC AIN0
+		 */
+		zephyr,input-positive = <NRF_SAADC_AIN0>;
+
+		/*
+		 * nRF SAADC internal reference is 0.6 V.
+		 * Gain 1/6 gives an effective full-scale of:
+		 *
+		 * 0.6 V / (1/6) = 3.6 V
+		 *
+		 * Good for a 0 V to 3.3 V biased piezo signal.
+		 */
+		zephyr,gain = "ADC_GAIN_1_6";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,vref-mv = <600>;
+
+		/*
+		 * Use a little acquisition time because the piezo front-end is high impedance.
+		 */
+		zephyr,acquisition-time = <ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS, 20)>;
+
+		zephyr,resolution = <12>;
+		zephyr,oversampling = <0>;
+	};
+};
